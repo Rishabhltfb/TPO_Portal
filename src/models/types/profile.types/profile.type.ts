@@ -1,7 +1,6 @@
 import { Types } from "mongoose";
 import CourseBranch from "../../../enums/branch";
 import Gender from "../../../enums/gender";
-import UserRole from "../../../enums/role";
 
 export default interface Profile {
     readonly _id?: Types.ObjectId;

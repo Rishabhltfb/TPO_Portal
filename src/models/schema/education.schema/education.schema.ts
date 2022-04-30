@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-import UserRole from "../../../enums/role";
-import User from "../../types/user.types/user.type";
+import Education from "../../types/education.types/education.type";
 
 mongoose.Schema.Types.String.set("trim", true);
 
-const userSchema = new mongoose.Schema<User>({
+const educationSchema = new mongoose.Schema<Education>({
     degree: {
         type: String,
     },
@@ -22,9 +21,10 @@ const userSchema = new mongoose.Schema<User>({
     },
 });
 
-userSchema.set("timestamps", true);
-userSchema.set("toObject", { virtuals: true });
+educationSchema.set("timestamps", true);
+educationSchema.set("toObject", { virtuals: true });
 
-const UserModel = mongoose.models.User || mongoose.model("User", userSchema);
+const EducationModel =
+    mongoose.models.Education || mongoose.model("Education", educationSchema);
 
-export default UserModel;
+export default EducationModel;
