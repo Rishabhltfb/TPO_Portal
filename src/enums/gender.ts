@@ -3,5 +3,6 @@ enum Gender {
     Male,
     Female,
     Other,
+    NotProvided,
 }
 export default Gender;

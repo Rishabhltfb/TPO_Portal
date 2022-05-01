@@ -6,7 +6,7 @@ export default interface JobDescription {
     jobDescription: string;
     role: string;
     compensation: string;
-    startDateTime: string;
+    startDateTime: Date;
     branch: CourseBranch;
     placementTests?: Array<Types.ObjectId>;
     applicationLink?: string;

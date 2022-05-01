@@ -6,5 +6,7 @@ enum CourseBranch {
     MechanicalBtech,
     CivilBtech,
     ChemicalBtech,
+    All,
+    None,
 }
 export default CourseBranch;

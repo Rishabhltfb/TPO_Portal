@@ -11,13 +11,17 @@ const profileSchema = new mongoose.Schema<Profile>({
         ref: "User",
     },
     gender: {
-        type: Gender,
+        type: String,
+        enum: Gender,
+        default: Gender.NotProvided,
     },
     resume: {
         type: String,
     },
     branch: {
         type: CourseBranch,
+        enum: CourseBranch,
+        default: CourseBranch.None,
     },
     session: {
         type: String,
