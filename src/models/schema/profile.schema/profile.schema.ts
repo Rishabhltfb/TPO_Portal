@@ -24,7 +24,7 @@ const profileSchema = new mongoose.Schema<Profile>({
         default: CourseBranch.None,
     },
     session: {
-        type: String,
+        type: Number,
     },
     contactNumber: {
         type: String,
@@ -40,7 +40,6 @@ const profileSchema = new mongoose.Schema<Profile>({
             type: String,
         },
     ],
-
     achievements: {
         type: String,
     },

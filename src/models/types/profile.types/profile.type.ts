@@ -8,7 +8,7 @@ export default interface Profile {
     gender: Gender;
     resume: string;
     branch: CourseBranch;
-    session: string; // Check how to store this
+    session: number;
     contactNumber: string;
     about: string;
     linkedin: string;
