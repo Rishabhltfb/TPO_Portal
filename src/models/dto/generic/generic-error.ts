@@ -1,11 +1,11 @@
 export default class GenericError extends Error {
-    message: string;
+  message: string;
 
-    code: number;
+  code: number;
 
-    constructor(message: string, code: number) {
-        super(message);
-        this.code = code;
-        this.message = message;
-    }
+  constructor(message: string, code: number) {
+    super(message);
+    this.code = code;
+    this.message = message;
+  }
 }
