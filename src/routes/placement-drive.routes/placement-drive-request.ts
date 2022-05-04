@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import expressAsyncHandler from 'express-async-handler';
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 import logger from '../../config/logger';
 import PlacementDriveRequestStatus from '../../enums/placement-drive-request-status';
 import SuccessMessages from '../../enums/success';
@@ -36,7 +36,7 @@ router.put(
       verified,
     };
     logger.info(placementDriveRequestUpdate);
-    let result = await placementDriveRequestService.updatePlacementDriveRequest(placementDriveRequestUpdate);
+    const result = await placementDriveRequestService.updatePlacementDriveRequest(placementDriveRequestUpdate);
     return res.send(responseAdapter.sendSuccessResponse('Success', result));
   }),
 );
@@ -44,7 +44,7 @@ router.put(
 router.get(
   '/status',
   expressAsyncHandler(async (req: Request, res: Response) => {
-    var status: PlacementDriveRequestStatus =
+    const status: PlacementDriveRequestStatus =
       PlacementDriveRequestStatus[String(req.query.status) as keyof typeof PlacementDriveRequestStatus];
     const response = await placementDriveRequestService.placementDriveRequestsByStatus(status);
     return res
