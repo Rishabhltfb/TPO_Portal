@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema<User>({
     role: {
         type: String,
         enum: UserRole,
-        default: UserRole.None,
+        default: UserRole[UserRole.None],
     },
     profile: {
         type: mongoose.Schema.Types.ObjectId,

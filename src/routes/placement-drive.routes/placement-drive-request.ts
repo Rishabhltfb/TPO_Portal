@@ -1,7 +1,10 @@
 import { Request, Response, Router } from "express";
 import expressAsyncHandler from "express-async-handler";
+var mongoose = require("mongoose");
 import logger from "../../config/logger";
+import PlacementDriveRequestStatus from "../../enums/placement-drive-request-status";
 import SuccessMessages from "../../enums/success";
+import PlacementDriveRequestUpdate from "../../models/types/placement-drive.types/placement-drive-request-update.type";
 import PlacementDriveRequest from "../../models/types/placement-drive.types/placment-drive-request.type";
 import PlacementDriveRequestService from "../../services/placement-drive.services/placement-drive-request.service";
 import ResponseAdapter from "../../utils/response-adapter";
@@ -14,7 +17,6 @@ router.post(
     "",
     expressAsyncHandler(async (req: Request, res: Response) => {
         const placementDriveRequest: PlacementDriveRequest = req.body;
-
         const response =
             placementDriveRequestService.createPlacementDriveRequest(
                 placementDriveRequest
@@ -30,11 +32,45 @@ router.post(
     })
 );
 
-router.get(
-    "/unapproved",
+router.put(
+    "/:id",
     expressAsyncHandler(async (req: Request, res: Response) => {
+        const status: PlacementDriveRequestStatus =
+            PlacementDriveRequestStatus[
+                String(
+                    req.query.status
+                ) as keyof typeof PlacementDriveRequestStatus
+            ];
+        const id = mongoose.Types.ObjectId(req.params.id);
+        const { rejectionFeedback, verified } = req.body;
+        const placementDriveRequestUpdate: PlacementDriveRequestUpdate = {
+            status,
+            rejectionFeedback,
+            id,
+            verified,
+        };
+        logger.info(placementDriveRequestUpdate);
+        let result =
+            await placementDriveRequestService.updatePlacementDriveRequest(
+                placementDriveRequestUpdate
+            );
+        return res.send(responseAdapter.sendSuccessResponse("Success", result));
+    })
+);
+
+router.get(
+    "/status",
+    expressAsyncHandler(async (req: Request, res: Response) => {
+        var status: PlacementDriveRequestStatus =
+            PlacementDriveRequestStatus[
+                String(
+                    req.query.status
+                ) as keyof typeof PlacementDriveRequestStatus
+            ];
         const response =
-            placementDriveRequestService.getAllUnapprovedPlacementDriveRequests();
+            await placementDriveRequestService.placementDriveRequestsByStatus(
+                status
+            );
         return res
             .status(200)
             .send(

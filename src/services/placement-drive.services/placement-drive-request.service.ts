@@ -2,7 +2,9 @@ import { Mongoose, Types } from "mongoose";
 import logger from "../../config/logger";
 import PlacementDriveRequestDAO from "../../data/placement-drive.dao/placement-drive-request.dao";
 import Errors from "../../enums/errors";
+import PlacementDriveRequestStatus from "../../enums/placement-drive-request-status";
 import GenericError from "../../models/dto/generic/generic-error";
+import PlacementDriveRequestUpdate from "../../models/types/placement-drive.types/placement-drive-request-update.type";
 import PlacementDriveRequest from "../../models/types/placement-drive.types/placment-drive-request.type";
 import { GenericExceptionHandler } from "../../utils/error-handling";
 
@@ -36,10 +38,24 @@ export default class PlacementDriveRequestService {
         }
     }
 
-    async getAllUnapprovedPlacementDriveRequests(): Promise<
-        Array<PlacementDriveRequest>
-    > {
-        return this.placementDriveRequestDAO.getAllUnapprovedPlacementDriveRequests();
+    async updatePlacementDriveRequest(
+        placementDriveRequestUpdate: PlacementDriveRequestUpdate
+    ): Promise<boolean> {
+        const res =
+            await this.placementDriveRequestDAO.updatePlacementDriveRequest(
+                placementDriveRequestUpdate
+            );
+        return res;
+    }
+
+    async placementDriveRequestsByStatus(
+        status: PlacementDriveRequestStatus
+    ): Promise<Array<PlacementDriveRequest>> {
+        const res =
+            await this.placementDriveRequestDAO.placementDriveRequestsByStatus(
+                status
+            );
+        return res;
     }
 
     validateEmail(email: string): boolean {

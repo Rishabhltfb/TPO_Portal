@@ -105,5 +105,5 @@ dist
 
 
 #User Defined
-.env.dev
+.env
 .env.prod

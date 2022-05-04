@@ -15,8 +15,8 @@ router.get("/test", (req: Request, res: Response) =>
     )
 );
 
-router.use("/auth", require("./auth.routes"));
-router.use("/user", require("./user.routes"));
+// router.use("/auth", require("./auth.routes"));
+// router.use("/user", require("./user.routes"));
 router.use(require("./placement-drive.routes"));
 
 module.exports = router;

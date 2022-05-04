@@ -7,18 +7,24 @@ mongoose.Schema.Types.String.set("trim", true);
 const placementDriveRequestSchema = new mongoose.Schema<PlacementDriveRequest>({
     companyName: {
         type: String,
+        required: true,
     },
     companyEmail: {
         type: String,
+        required: true,
     },
     companyNumber: {
         type: String,
+        required: true,
     },
     verified: {
         type: Boolean,
+        default: false,
     },
     status: {
-        type: PlacementDriveRequestStatus,
+        type: String,
+        enum: PlacementDriveRequestStatus,
+        default: PlacementDriveRequestStatus[PlacementDriveRequestStatus.Open],
     },
     placementDrive: {
         type: mongoose.Schema.Types.ObjectId,

@@ -13,7 +13,7 @@ const profileSchema = new mongoose.Schema<Profile>({
     gender: {
         type: String,
         enum: Gender,
-        default: Gender.NotProvided,
+        default: Gender[Gender.NotProvided],
     },
     resume: {
         type: String,
@@ -21,7 +21,7 @@ const profileSchema = new mongoose.Schema<Profile>({
     branch: {
         type: CourseBranch,
         enum: CourseBranch,
-        default: CourseBranch.None,
+        default: CourseBranch[CourseBranch.None],
     },
     session: {
         type: Number,

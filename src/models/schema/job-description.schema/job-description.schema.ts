@@ -20,7 +20,7 @@ const jobDescriptionSchema = new mongoose.Schema<JobDescription>({
     branch: {
         type: String,
         enum: CourseBranch,
-        default: CourseBranch.All,
+        default: CourseBranch[CourseBranch.All],
     },
     placementTests: [
         {

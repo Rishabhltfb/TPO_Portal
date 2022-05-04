@@ -14,6 +14,11 @@ const placementTestResultSchema = new mongoose.Schema<PlacementTestResult>({
             ref: "User",
         },
     ],
+    attachment: [
+        {
+            type: String,
+        },
+    ],
 });
 
 placementTestResultSchema.set("timestamps", true);

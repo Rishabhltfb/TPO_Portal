@@ -26,7 +26,7 @@ app.use(
 );
 
 // AUTH MIDDLEWARE
-app.use(passport.initialize());
+// app.use(passport.initialize());
 
 try {
     app.listen(PORT || 8080, () => {
