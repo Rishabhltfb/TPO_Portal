@@ -1,4 +1,4 @@
-import { Mongoose, Types } from 'mongoose';
+import { Mongoose } from 'mongoose';
 import logger from '../../config/logger';
 import PlacementDriveRequestDAO from '../../data/placement-drive.dao/placement-drive-request.dao';
 import Errors from '../../enums/errors';
@@ -6,7 +6,6 @@ import PlacementDriveRequestStatus from '../../enums/placement-drive-request-sta
 import GenericError from '../../models/dto/generic/generic-error';
 import PlacementDriveRequestUpdate from '../../models/types/placement-drive.types/placement-drive-request-update.type';
 import PlacementDriveRequest from '../../models/types/placement-drive.types/placment-drive-request.type';
-import { GenericExceptionHandler } from '../../utils/error-handling';
 
 const mongoose = new Mongoose();
 export default class PlacementDriveRequestService {
