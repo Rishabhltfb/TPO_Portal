@@ -1,0 +1,12 @@
+tsconfig.json
+
+.eslintrc
+.gitignore
+
+dist/
+logs/
+.vscode/
+
+README.md
+
+package-lock.json

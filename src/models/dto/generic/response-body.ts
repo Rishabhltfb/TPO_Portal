@@ -1,16 +1,16 @@
 export default class ResponseBody {
-    constructor(status: boolean, code: number, message: string, data: unknown) {
-        this.status = status;
-        this.data = data;
-        this.code = code;
-        this.message = message;
-    }
+  constructor(status: boolean, code: number, message: string, data: unknown) {
+    this.status = status;
+    this.data = data;
+    this.code = code;
+    this.message = message;
+  }
 
-    status: boolean;
+  status: boolean;
 
-    message: string;
+  message: string;
 
-    code: number;
+  code: number;
 
-    data: unknown;
+  data: unknown;
 }

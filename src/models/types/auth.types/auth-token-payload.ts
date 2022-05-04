@@ -1,5 +1,5 @@
 export default interface AuthTokenPayload {
-    email: string;
-    userId: string;
-    tokenId?: string;
+  email: string;
+  userId: string;
+  tokenId?: string;
 }
