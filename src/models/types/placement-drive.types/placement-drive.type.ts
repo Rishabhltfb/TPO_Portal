@@ -5,6 +5,7 @@ export default interface PlacementDrive {
   companyName: string;
   companyEmail: string;
   companyNumber: string;
+  visible: boolean;
   jobDescription: Array<Types.ObjectId>;
   readonly createdAt?: Date;
   readonly updatedAt?: Date;
