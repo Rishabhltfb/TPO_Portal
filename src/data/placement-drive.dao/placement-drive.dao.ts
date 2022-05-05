@@ -9,8 +9,12 @@ const mongoose = new Mongoose();
 
 export default class PlacementDriveDAO {
   async createPlacementDrive(placementDrive: PlacementDrive): Promise<PlacementDrive> {
-    const placementDriveDao = new PlacementDriveModel(placementDrive);
-    return placementDriveDao.save();
+    try {
+      const placementDriveDao = new PlacementDriveModel(placementDrive);
+      return placementDriveDao.save();
+    } catch (err) {
+      throw new GenericError('Request Timeout here', 408);
+    }
   }
 
   async deletePlacementDrive(placementDriveId: Types.ObjectId): Promise<void> {
@@ -29,7 +33,25 @@ export default class PlacementDriveDAO {
       });
       return placementDrive;
     } catch (err) {
-      throw new GenericError('No Placement Drive found using this id', 404);
+      throw new GenericError('Request Timeout here', 408);
+    }
+  }
+
+  async getAllVisiblePlacementDrives(): Promise<Array<PlacementDrive>> {
+    try {
+      const results = await PlacementDriveModel.find({ visible: true }).sort({ createdAt: -1 }).exec();
+      return results;
+    } catch (err) {
+      throw new GenericError('Request Timeout here', 408);
+    }
+  }
+
+  async getAllPlacementDrives(): Promise<Array<PlacementDrive>> {
+    try {
+      const results = await PlacementDriveModel.find().sort({ createdAt: -1 }).exec();
+      return results;
+    } catch (err) {
+      throw new GenericError('Request Timeout here', 408);
     }
   }
 }

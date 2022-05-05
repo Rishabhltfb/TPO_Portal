@@ -11,11 +11,11 @@ const router = Router();
 const placementDriveService = new PlacementDriveService();
 const responseAdapter = new ResponseAdapter();
 
-// @route   GET api/v1/placement-drive/:id
+// @route   GET api/v1/placement-drive/placementDriveById/:id
 // @desc    GET Placement Drive by id
 // TODO: @access    Private (All users)
 router.get(
-  '/:id',
+  '/placementDriveById/:id',
   expressAsyncHandler(async (req: Request, res: Response) => {
     const id = mongoose.Types.ObjectId(req.params.id);
     const placementDrive = await placementDriveService.getPlacementDriveById(id);
@@ -24,6 +24,28 @@ router.get(
     } else {
       res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_FOUND, placementDrive));
     }
+  }),
+);
+
+// @route   GET api/v1/placement-drive/
+// @desc    GET All Placement Drives which are visible(true)
+// TODO: @access    Private (To be used by students)
+router.get(
+  '',
+  expressAsyncHandler(async (req: Request, res: Response) => {
+    const placementDrives = await placementDriveService.getAllVisiblePlacementDrives();
+    res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVES_FOUND, placementDrives));
+  }),
+);
+
+// @route   GET api/v1/placement-drive/allPlacementDrives
+// @desc    GET All Placement Drives
+// TODO: @access    Private (For tpo)
+router.get(
+  '/allPlacementDrives',
+  expressAsyncHandler(async (req: Request, res: Response) => {
+    const placementDrives = await placementDriveService.getAllPlacementDrives();
+    res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVES_FOUND, placementDrives));
   }),
 );
 
