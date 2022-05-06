@@ -16,11 +16,10 @@ export default class PlacementDriveRequestDAO {
   }
 
   async updatePlacementDriveRequest(placementDriveRequestUpdate: PlacementDriveRequestUpdate): Promise<boolean> {
-    var updateObj: LooseObject = {};
+    const updateObj: LooseObject = {};
     if (placementDriveRequestUpdate.status) {
       updateObj.status = PlacementDriveRequestStatus[placementDriveRequestUpdate.status];
     }
-
     if (placementDriveRequestUpdate.verified) {
       updateObj.verified = placementDriveRequestUpdate.verified;
     }

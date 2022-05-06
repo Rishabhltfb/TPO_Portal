@@ -17,8 +17,8 @@ router.post(
   '',
   expressAsyncHandler(async (req: Request, res: Response) => {
     const placementDriveRequest: PlacementDriveRequest = req.body;
-    const response = placementDriveRequestService.createPlacementDriveRequest(placementDriveRequest);
-    return res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_REQUEST, response));
+    const response = await placementDriveRequestService.createPlacementDriveRequest(placementDriveRequest);
+    res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_REQUEST, response));
   }),
 );
 
@@ -37,7 +37,7 @@ router.put(
     };
     logger.info(placementDriveRequestUpdate);
     const result = await placementDriveRequestService.updatePlacementDriveRequest(placementDriveRequestUpdate);
-    return res.send(responseAdapter.sendSuccessResponse('Success', result));
+    res.send(responseAdapter.sendSuccessResponse('Success', result));
   }),
 );
 
@@ -47,9 +47,7 @@ router.get(
     const status: PlacementDriveRequestStatus =
       PlacementDriveRequestStatus[String(req.query.status) as keyof typeof PlacementDriveRequestStatus];
     const response = await placementDriveRequestService.placementDriveRequestsByStatus(status);
-    return res
-      .status(200)
-      .send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_REQUEST_OPEN, response));
+    res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_REQUEST_OPEN, response));
   }),
 );
 
