@@ -7,11 +7,13 @@ export default interface JobDescription {
   role: string;
   compensation: string;
   startDateTime: Date;
-  branch: CourseBranch;
+  courseBranches: Array<CourseBranch>;
   placementTests?: Array<Types.ObjectId>;
   applicationLink?: string;
   attachments?: Array<string>;
   readonly createdAt?: Date;
   readonly updatedAt?: Date;
   deadline?: Date;
+  minCpi?: number;
+  threads?: Array<Types.ObjectId>;
 }
