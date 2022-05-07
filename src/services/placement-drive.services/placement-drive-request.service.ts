@@ -1,4 +1,4 @@
-import { Mongoose } from 'mongoose';
+import { Mongoose, Types } from 'mongoose';
 import logger from '../../config/logger';
 import PlacementDriveRequestDAO from '../../data/placement-drive.dao/placement-drive-request.dao';
 import Errors from '../../enums/errors';
@@ -34,6 +34,10 @@ export default class PlacementDriveRequestService {
 
   async placementDriveRequestsByStatus(status: PlacementDriveRequestStatus): Promise<Array<PlacementDriveRequest>> {
     const res = await this.placementDriveRequestDAO.placementDriveRequestsByStatus(status);
+    return res;
+  }
+  async getPlacementDriveRequestById(placementDriveId: Types.ObjectId): Promise<PlacementDriveRequest> {
+    const res = await this.placementDriveRequestDAO.getPlacementDriveRequestById(placementDriveId);
     return res;
   }
 

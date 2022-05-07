@@ -3,6 +3,7 @@ import expressAsyncHandler from 'express-async-handler';
 import mongoose from 'mongoose';
 import logger from '../../config/logger';
 import SuccessMessages from '../../enums/success';
+import PlacementDriveUpdate from '../../models/types/placement-drive.types/placement-drive-update.type';
 import PlacementDrive from '../../models/types/placement-drive.types/placement-drive.type';
 import PlacementDriveService from '../../services/placement-drive.services/placement-drive.service';
 import ResponseAdapter from '../../utils/response-adapter';
@@ -77,6 +78,29 @@ router.delete(
       res
         .status(200)
         .send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_DELETED, placementDrive));
+    }
+  }),
+);
+
+router.put(
+  '/:id',
+  expressAsyncHandler(async (req: Request, res: Response) => {
+    const id = mongoose.Types.ObjectId(req.params.id);
+    const { companyName, companyEmail, companyNumber, jobDescription, visible } = req.body;
+    const isPlacementDrive = await placementDriveService.getPlacementDriveById(id);
+    if (!isPlacementDrive) {
+      res.status(404).send(responseAdapter.sendErrorResponse('No placement drive found', 404));
+    } else {
+      const placementDriveBody: PlacementDriveUpdate = {
+        _id: id,
+        companyName,
+        companyEmail,
+        companyNumber,
+        jobDescription,
+        visible,
+      };
+      const result = await placementDriveService.updatePlacementDrive(placementDriveBody);
+      res.status(200).send(responseAdapter.sendSuccessResponse('Update Successful', result));
     }
   }),
 );
