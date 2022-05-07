@@ -15,4 +15,5 @@ export default interface JobDescriptionUpdate {
   deadline?: Date;
   jobType?: JobType;
   minCpi?: number;
+  threads?: Array<Types.ObjectId>;
 }
