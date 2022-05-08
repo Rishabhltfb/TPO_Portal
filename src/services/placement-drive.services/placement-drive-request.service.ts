@@ -36,6 +36,10 @@ export default class PlacementDriveRequestService {
     const res = await this.placementDriveRequestDAO.placementDriveRequestsByStatus(status);
     return res;
   }
+  async getPlacementDriveRequestById(placementDriveId: Types.ObjectId): Promise<PlacementDriveRequest> {
+    const res = await this.placementDriveRequestDAO.getPlacementDriveRequestById(placementDriveId);
+    return res;
+  }
 
   validateEmail(email: string): boolean {
     const re =

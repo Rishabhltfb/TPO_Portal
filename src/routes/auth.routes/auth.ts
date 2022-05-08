@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Request, Response, Router } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 // import AuthService from "../../services/auth.services/auth.service";
@@ -15,7 +17,8 @@ router.post(
 
     const response = {};
     // const response = await authService.signIn(email, name, ip, password);
-    return res.status(200).send(responseAdapter.sendSuccessResponse('Signin Successful', response));
+    res.status(200).send(responseAdapter.sendSuccessResponse('Signin Successful', response));
+
   }),
 );
 

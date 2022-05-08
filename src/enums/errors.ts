@@ -2,6 +2,7 @@
 enum Errors {
   NOT_FOUND_ERR = 'Endpoint Not Found Error',
   PLACEMENT_REQUEST_NOT_FOUND_ERR = 'Placement Drive Request Not Found Error',
+  PLACEMENT_DRIVE_NOT_FOUND_ERR = 'Placement Drive Not Found Error',
   USER_NOT_FOUND_ERR = 'User Not Found',
   SERVER_ERR = 'Internal Server Error! Something went wrong',
   UNAUTHORIZED_ERR = 'Unauthorized',

@@ -1,6 +1,5 @@
 import { Types } from 'mongoose';
-
-export default interface PlacementDrive {
+export default interface PlacementDriveUpdate {
   readonly _id?: Types.ObjectId;
   companyName: string;
   companyEmail: string;

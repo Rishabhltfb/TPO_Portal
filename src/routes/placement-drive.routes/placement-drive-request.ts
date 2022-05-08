@@ -5,12 +5,15 @@ import logger from '../../config/logger';
 import PlacementDriveRequestStatus from '../../enums/placement-drive-request-status';
 import SuccessMessages from '../../enums/success';
 import PlacementDriveRequestUpdate from '../../models/types/placement-drive.types/placement-drive-request-update.type';
+import PlacementDrive from '../../models/types/placement-drive.types/placement-drive.type';
 import PlacementDriveRequest from '../../models/types/placement-drive.types/placment-drive-request.type';
 import PlacementDriveRequestService from '../../services/placement-drive.services/placement-drive-request.service';
+import PlacementDriveService from '../../services/placement-drive.services/placement-drive.service';
 import ResponseAdapter from '../../utils/response-adapter';
 
 const router = Router();
 const placementDriveRequestService = new PlacementDriveRequestService();
+const placementDriveService = new PlacementDriveService();
 const responseAdapter = new ResponseAdapter();
 
 router.post(
@@ -18,7 +21,7 @@ router.post(
   expressAsyncHandler(async (req: Request, res: Response) => {
     const placementDriveRequest: PlacementDriveRequest = req.body;
     const response = placementDriveRequestService.createPlacementDriveRequest(placementDriveRequest);
-    return res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_REQUEST, response));
+    res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_REQUEST, response));
   }),
 );
 
@@ -35,6 +38,36 @@ router.put(
       id,
       verified,
     };
+
+    // Create Placement Drive when PlacementDriveRequest status is set to Approved
+    // logger.info(placementDriveRequestUpdate);
+    const result = await placementDriveRequestService.updatePlacementDriveRequest(placementDriveRequestUpdate);
+    const placementDriveRequestData = await placementDriveRequestService.getPlacementDriveRequestById(id);
+    if (status === PlacementDriveRequestStatus.Approved) {
+      const placementDrive: PlacementDrive = {
+        companyName: placementDriveRequestData.companyName,
+        companyNumber: placementDriveRequestData.companyNumber,
+        companyEmail: placementDriveRequestData.companyEmail,
+        visible: false,
+        jobDescription: [],
+      };
+      // logger.error(placementDriveRequestData);
+      await placementDriveService.createPlacementDrive(placementDrive);
+    }
+    res.send(responseAdapter.sendSuccessResponse('Success', result));
+  }),
+);
+
+router.get(
+  '/byId/:id',
+  expressAsyncHandler(async (req: Request, res: Response) => {
+    const id = mongoose.Types.ObjectId(req.params.id);
+    const placementDrive = await placementDriveRequestService.getPlacementDriveRequestById(id);
+    if (!placementDrive) {
+      res.status(404).send(responseAdapter.sendErrorResponse('Not placement drive found', 404));
+    } else {
+      res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_FOUND, placementDrive));
+    }
     logger.info(placementDriveRequestUpdate);
     const result = await placementDriveRequestService.updatePlacementDriveRequest(placementDriveRequestUpdate);
     return res.send(responseAdapter.sendSuccessResponse('Success', result));
@@ -47,9 +80,7 @@ router.get(
     const status: PlacementDriveRequestStatus =
       PlacementDriveRequestStatus[String(req.query.status) as keyof typeof PlacementDriveRequestStatus];
     const response = await placementDriveRequestService.placementDriveRequestsByStatus(status);
-    return res
-      .status(200)
-      .send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_REQUEST_OPEN, response));
+    res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_REQUEST_OPEN, response));
   }),
 );
 
