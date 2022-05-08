@@ -1,4 +1,4 @@
-import { Mongoose, Types } from 'mongoose';
+import { Mongoose } from 'mongoose';
 import logger from '../../config/logger';
 import PlacementDriveRequestDAO from '../../data/placement-drive.dao/placement-drive-request.dao';
 import Errors from '../../enums/errors';

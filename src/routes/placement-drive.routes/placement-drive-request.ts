@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import mongoose from 'mongoose';
-// import logger from '../../config/logger';
+import logger from '../../config/logger';
 import PlacementDriveRequestStatus from '../../enums/placement-drive-request-status';
 import SuccessMessages from '../../enums/success';
 import PlacementDriveRequestUpdate from '../../models/types/placement-drive.types/placement-drive-request-update.type';
@@ -68,6 +68,9 @@ router.get(
     } else {
       res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_FOUND, placementDrive));
     }
+    logger.info(placementDriveRequestUpdate);
+    const result = await placementDriveRequestService.updatePlacementDriveRequest(placementDriveRequestUpdate);
+    return res.send(responseAdapter.sendSuccessResponse('Success', result));
   }),
 );
 
