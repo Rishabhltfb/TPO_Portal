@@ -1,4 +1,4 @@
-import { Mongoose } from 'mongoose';
+import { Mongoose, Types } from 'mongoose';
 import logger from '../../config/logger';
 import PlacementDriveRequestStatus from '../../enums/placement-drive-request-status';
 import GenericError from '../../models/dto/generic/generic-error';
@@ -27,15 +27,28 @@ export default class PlacementDriveRequestDAO {
       updateObj.rejectionFeedback = placementDriveRequestUpdate.rejectionFeedback;
     }
 
-    PlacementDriveRequestModel.updateOne(
+    await PlacementDriveRequestModel.updateOne(
       { _id: placementDriveRequestUpdate.id },
       {
         $set: updateObj,
       },
-    ).catch((err) => {
-      logger.error(err);
-    });
+    )
+      .exec()
+      .catch((err) => {
+        logger.error(err);
+      });
     return Promise.resolve(true);
+  }
+
+  async getPlacementDriveRequestById(placementDriveId: Types.ObjectId): Promise<PlacementDriveRequest> {
+    try {
+      const placementDrive = await PlacementDriveRequestModel.findById({
+        _id: placementDriveId,
+      });
+      return placementDrive;
+    } catch (err) {
+      throw new GenericError('Request Timeout here', 408);
+    }
   }
 
   async placementDriveRequestsByStatus(status: PlacementDriveRequestStatus): Promise<Array<PlacementDriveRequest>> {

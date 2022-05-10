@@ -13,6 +13,10 @@ const placementDriveSchema = new mongoose.Schema<PlacementDrive>({
   companyNumber: {
     type: String,
   },
+  visible: {
+    type: Boolean,
+    default: false,
+  },
   jobDescription: [
     {
       type: mongoose.Schema.Types.ObjectId,
