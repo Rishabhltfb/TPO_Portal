@@ -53,4 +53,12 @@ export default class JobDescriptionService {
     const res = await this.jobDescriptionDao.updateJobDescription(jobDescriptionUpdate);
     return res;
   }
+
+  async updateThread(id: string, threadText: string): Promise<boolean> {
+    if (threadText.length == 0) {
+      throw new GenericError(Errors.INVALID_REQUEST_ERROR, 400);
+    }
+    const res = await this.jobDescriptionDao.updateThread(id, threadText);
+    return res;
+  }
 }

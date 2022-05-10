@@ -29,6 +29,21 @@ export default class JobDescriptionDao {
     return data;
   }
 
+  async updateThread(id: string, threadText: string): Promise<boolean> {
+    const updateObj: LooseObject = {};
+    updateObj.threadText = threadText;
+    ThreadModel.updateOne(
+      { _id: id },
+      {
+        $set: updateObj,
+      },
+    ).catch((err) => {
+      logger.error(err);
+      Promise.resolve(false);
+    });
+    return Promise.resolve(true);
+  }
+
   async updateJobDescription(jobDescriptionUpdate: JobDescriptionUpdate): Promise<boolean> {
     const updateObj: LooseObject = {};
     if (jobDescriptionUpdate.applicationLink) {
