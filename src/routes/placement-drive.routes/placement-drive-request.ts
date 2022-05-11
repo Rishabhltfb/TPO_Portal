@@ -1,7 +1,6 @@
 import { Request, Response, Router } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import mongoose from 'mongoose';
-import logger from '../../config/logger';
 import PlacementDriveRequestStatus from '../../enums/placement-drive-request-status';
 import SuccessMessages from '../../enums/success';
 import PlacementDriveRequestUpdate from '../../models/types/placement-drive.types/placement-drive-request-update.type';
@@ -20,7 +19,7 @@ router.post(
   '',
   expressAsyncHandler(async (req: Request, res: Response) => {
     const placementDriveRequest: PlacementDriveRequest = req.body;
-    const response = placementDriveRequestService.createPlacementDriveRequest(placementDriveRequest);
+    const response = await placementDriveRequestService.createPlacementDriveRequest(placementDriveRequest);
     res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_REQUEST, response));
   }),
 );
@@ -40,7 +39,6 @@ router.put(
     };
 
     // Create Placement Drive when PlacementDriveRequest status is set to Approved
-    // logger.info(placementDriveRequestUpdate);
     const result = await placementDriveRequestService.updatePlacementDriveRequest(placementDriveRequestUpdate);
     const placementDriveRequestData = await placementDriveRequestService.getPlacementDriveRequestById(id);
     if (status === PlacementDriveRequestStatus.Approved) {
@@ -51,26 +49,9 @@ router.put(
         visible: false,
         jobDescription: [],
       };
-      // logger.error(placementDriveRequestData);
       await placementDriveService.createPlacementDrive(placementDrive);
     }
     res.send(responseAdapter.sendSuccessResponse('Success', result));
-  }),
-);
-
-router.get(
-  '/byId/:id',
-  expressAsyncHandler(async (req: Request, res: Response) => {
-    const id = mongoose.Types.ObjectId(req.params.id);
-    const placementDrive = await placementDriveRequestService.getPlacementDriveRequestById(id);
-    if (!placementDrive) {
-      res.status(404).send(responseAdapter.sendErrorResponse('Not placement drive found', 404));
-    } else {
-      res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_FOUND, placementDrive));
-    }
-    logger.info(placementDriveRequestUpdate);
-    const result = await placementDriveRequestService.updatePlacementDriveRequest(placementDriveRequestUpdate);
-    return res.send(responseAdapter.sendSuccessResponse('Success', result));
   }),
 );
 
