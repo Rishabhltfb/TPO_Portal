@@ -15,7 +15,9 @@ export default class PlacementDriveRequestDAO {
     return placementDriveRequestDao.save();
   }
 
-  async updatePlacementDriveRequest(placementDriveRequestUpdate: PlacementDriveRequestUpdate): Promise<boolean> {
+  async updatePlacementDriveRequest(
+    placementDriveRequestUpdate: PlacementDriveRequestUpdate,
+  ): Promise<PlacementDriveRequest> {
     const updateObj: LooseObject = {};
     if (placementDriveRequestUpdate.status) {
       updateObj.status = PlacementDriveRequestStatus[placementDriveRequestUpdate.status];
@@ -27,7 +29,7 @@ export default class PlacementDriveRequestDAO {
       updateObj.rejectionFeedback = placementDriveRequestUpdate.rejectionFeedback;
     }
 
-    await PlacementDriveRequestModel.updateOne(
+    const placementDriveData = await PlacementDriveRequestModel.findByIdAndUpdate(
       { _id: placementDriveRequestUpdate.id },
       {
         $set: updateObj,
@@ -37,7 +39,7 @@ export default class PlacementDriveRequestDAO {
       .catch((err) => {
         logger.error(err);
       });
-    return Promise.resolve(true);
+    return placementDriveData;
   }
 
   async getPlacementDriveRequestById(placementDriveId: Types.ObjectId): Promise<PlacementDriveRequest> {
