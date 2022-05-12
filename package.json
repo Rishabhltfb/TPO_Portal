@@ -9,6 +9,7 @@
     "format:fix": "prettier --write .",
     "eslint:check": "eslint 'src/**/*.ts'",
     "eslint:fix": "eslint 'src/**/*.ts' --fix",
+    "types:check": "tsc --pretty --noEmit",
     "validate": "run-p eslint:check format:check build",
     "prestart": "npm run build",
     "start": "node dist/app.js",

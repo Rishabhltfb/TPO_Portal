@@ -1,7 +1,6 @@
 import { Request, Response, Router } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import mongoose from 'mongoose';
-// import logger from '../../config/logger';
 import PlacementDriveRequestStatus from '../../enums/placement-drive-request-status';
 import SuccessMessages from '../../enums/success';
 import PlacementDriveRequestUpdate from '../../models/types/placement-drive.types/placement-drive-request-update.type';
@@ -18,7 +17,7 @@ router.post(
   '',
   expressAsyncHandler(async (req: Request, res: Response) => {
     const placementDriveRequest: PlacementDriveRequest = req.body;
-    const response = placementDriveRequestService.createPlacementDriveRequest(placementDriveRequest);
+    const response = await placementDriveRequestService.createPlacementDriveRequest(placementDriveRequest);
     res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_REQUEST, response));
   }),
 );
@@ -45,18 +44,6 @@ router.put(
   }),
 );
 
-router.get(
-  '/byId/:id',
-  expressAsyncHandler(async (req: Request, res: Response) => {
-    const id = mongoose.Types.ObjectId(req.params.id);
-    const placementDrive = await placementDriveRequestService.getPlacementDriveRequestById(id);
-    if (!placementDrive) {
-      res.status(404).send(responseAdapter.sendErrorResponse('Not placement drive found', 404));
-    } else {
-      res.status(200).send(responseAdapter.sendSuccessResponse(SuccessMessages.PLACEMENT_DRIVE_FOUND, placementDrive));
-    }
-  }),
-);
 
 router.get(
   '/status',

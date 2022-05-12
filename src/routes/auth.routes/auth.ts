@@ -18,7 +18,6 @@ router.post(
     const response = {};
     // const response = await authService.signIn(email, name, ip, password);
     res.status(200).send(responseAdapter.sendSuccessResponse('Signin Successful', response));
-
   }),
 );
 

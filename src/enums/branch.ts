@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 enum CourseBranch {
   ComputerBtech,
-  ElectroniceBtech,
+  ElectronicsBtech,
   ElectricalBtech,
   MechanicalBtech,
   CivilBtech,

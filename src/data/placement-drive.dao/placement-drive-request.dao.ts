@@ -22,7 +22,6 @@ export default class PlacementDriveRequestDAO {
     if (placementDriveRequestUpdate.status) {
       updateObj.status = PlacementDriveRequestStatus[placementDriveRequestUpdate.status];
     }
-
     if (placementDriveRequestUpdate.verified) {
       updateObj.verified = placementDriveRequestUpdate.verified;
     }
